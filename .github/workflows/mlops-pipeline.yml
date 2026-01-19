@@ -6,11 +6,11 @@ on:
       - 'data/**'       # trigger only when data changes
       - 'src/**'        # trigger only when source code changes
 
-  jobs:
-    retrain:
-      runs-on: ubuntu-latest
+jobs:
+  retrain:
+    runs-on: ubuntu-latest
 
-      steps:
+    steps:
       - name: Checkout repository
           uses: actions/checkout@v3
           with:
