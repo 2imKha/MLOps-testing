@@ -7,6 +7,7 @@ from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 from sklearn.model_selection import RandomizedSearchCV
 from sklearn.metrics import precision_recall_curve, auc
+from sklearn.metrics import average_precision_score
 from scipy.stats import uniform, randint
 import os
 import joblib
@@ -35,6 +36,7 @@ XGB_random = RandomizedSearchCV(estimator=XGB, param_distributions=param_dist, n
 XGB_random.fit(X_train_resampled, y_train_resampled)
 y_score=XGB_random.predict_proba(X_test)[:,1]
 precision, recall, _ = precision_recall_curve(y_test, y_score)
+ap = average_precision_score(y_test, y_score)
 print(auc(recall, precision))
 
 os.makedirs('models', exist_ok=True)
@@ -50,6 +52,7 @@ timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 new_metrics = pd.DataFrame({
     'timestamp': [timestamp],
+    'average_precision': ap,
     'pr_auc': [auc(recall, precision)]
 })
 
